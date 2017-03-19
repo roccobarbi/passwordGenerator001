@@ -11,7 +11,7 @@ public class Password {
 	// CONSTANTS //
 	///////////////
 	private static final int MIN_LENGTH = 8;
-	private static final int DEF_LENGTH = 8;
+	private static final int DEF_LENGTH = 16;
 	private static final char[] AVAIL_SYMBOLS = {(char) 33,
 			(char) 35,
 			(char) 36,
@@ -99,19 +99,19 @@ public class Password {
         if(length < MIN_LENGTH) length = MIN_LENGTH; // For safety
         passwordElements = new char[length];
         // Length for each element
-        lCase = (int) (Math.random() * (length - 5));
-        uCase = (int) (Math.random() * (length - lCase - 3));
-        digits = (int) (Math.random() * (length - lCase - uCase - 1));
+        lCase = (int) (Math.random() * (length - 4)) + 1;
+        uCase = (int) (Math.random() * (length - lCase - 3)) + 1;
+        digits = (int) (Math.random() * (length - lCase - uCase - 2)) + 1;
         // I select each element
         for(int i = 0; i < length; i++){
         	if(lCase > 0){
-        		passwordElements[i] = (char) (97 + (Math.random() * 26));
+        		passwordElements[i] = (char) (97 + (int) (Math.random() * 26));
         		lCase--;
         	} else if (uCase > 0) {
-        		passwordElements[i] = (char) (65 + (Math.random() * 26));
+        		passwordElements[i] = (char) (65 + (int) (Math.random() * 26));
         		uCase--;
         	} else if (digits > 0) {
-        		passwordElements[i] = (char) (48 + (Math.random() * 10));
+        		passwordElements[i] = (char) (48 + (int) (Math.random() * 10));
         		digits --;
         	} else {
         		// Symbols have no counter, having been left for last
@@ -134,23 +134,27 @@ public class Password {
     /**
      * 
      */
-    public void getPassword() {
+    public String getPassword() {
         // TODO implement here
+    	return password;
     }
 
     /**
      * 
      */
-    public void getStrength() {
+    public int getStrength() {
         // TODO implement here
+    	return 0;
     }
     
 
     /**
      * Returns a string array with the history of all previous values for the password, not including the current one. The older values are placed at lower indices in the array.
      */
-    public void getHistory() {
+    public String[] getHistory() {
         // TODO implement here
+    	// BAD practice only as a placeholder here
+    	return history;
     }
     
 	/////////////
@@ -185,10 +189,10 @@ public class Password {
     	int newNumber = 0;
     	char temp = ' ';
     	for(int i = 0; i < a.length - 1; i++){
-    		newNumber = i + (int) (Math.random() * (a.length - i + 1));
+    		newNumber = i + (int) (Math.random() * (a.length - i));
     		temp = a[i];
     		a[i] = a[newNumber];
-    		a[newNumber] = a[i];
+    		a[newNumber] = temp;
     	}
     }
 
