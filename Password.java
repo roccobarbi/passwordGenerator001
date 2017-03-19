@@ -12,6 +12,35 @@ public class Password {
 	///////////////
 	private static final int MIN_LENGTH = 8;
 	private static final int DEF_LENGTH = 8;
+	private static final char[] AVAIL_SYMBOLS = {(char) 33,
+			(char) 35,
+			(char) 36,
+			(char) 37,
+			(char) 38,
+			(char) 40,
+			(char) 41,
+			(char) 42,
+			(char) 43,
+			(char) 44,
+			(char) 45,
+			(char) 46,
+			(char) 47,
+			(char) 58,
+			(char) 59,
+			(char) 60,
+			(char) 61,
+			(char) 62,
+			(char) 63,
+			(char) 64,
+			(char) 91,
+			(char) 92,
+			(char) 93,
+			(char) 94,
+			(char) 95,
+			(char) 123,
+			(char) 124,
+			(char) 125
+	};
 	
 	////////////
 	// FIELDS //
@@ -37,10 +66,7 @@ public class Password {
      * Default constructor
      */
     public Password() {
-    	setPassword();
-    	setStrength();
-    	history = new String[100];
-    	historyLength = 0;
+    	this(DEF_LENGTH);
     }
     
     /**
@@ -60,7 +86,7 @@ public class Password {
      * Using default length of 16
      */
     private void setPassword() {
-        // TODO implement here
+        setPassword(DEF_LENGTH);
     }
     
     /**
@@ -68,7 +94,34 @@ public class Password {
      * Precondition: the length is at least MIN_LENGTH, otherwise MIN_LENGTH is used
      */
     private void setPassword(int length) {
-        // TODO implement here
+    	int lCase = 0, uCase  = 0, digits = 0;
+    	char passwordElements [];
+        if(length < MIN_LENGTH) length = MIN_LENGTH; // For safety
+        passwordElements = new char[length];
+        // Length for each element
+        lCase = (int) (Math.random() * (length - 5));
+        uCase = (int) (Math.random() * (length - lCase - 3));
+        digits = (int) (Math.random() * (length - lCase - uCase - 1));
+        // I select each element
+        for(int i = 0; i < length; i++){
+        	if(lCase > 0){
+        		passwordElements[i] = (char) (97 + (Math.random() * 26));
+        		lCase--;
+        	} else if (uCase > 0) {
+        		passwordElements[i] = (char) (65 + (Math.random() * 26));
+        		uCase--;
+        	} else if (digits > 0) {
+        		passwordElements[i] = (char) (48 + (Math.random() * 10));
+        		digits --;
+        	} else {
+        		// Symbols have no counter, having been left for last
+        		passwordElements[i] = AVAIL_SYMBOLS[(int)(Math.random() * AVAIL_SYMBOLS.length)];
+        	}
+        }
+        // I shuffle everything
+        shuffle(passwordElements);
+        // I convert to string and save it
+        password = new String(passwordElements);
     }
 
     /**
