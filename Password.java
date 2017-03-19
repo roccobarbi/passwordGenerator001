@@ -7,17 +7,16 @@ import java.util.*;
  */
 public class Password {
 
-    /**
-     * Default constructor
-     */
-    public Password() {
-    	setPassword();
-    	setStrength();
-    	history = new String[100];
-    	historyLength = 0;
-    }
-
-    // The actual password
+	///////////////
+	// CONSTANTS //
+	///////////////
+	private static final int MIN_LENGTH = 8;
+	private static final int DEF_LENGTH = 8;
+	
+	////////////
+	// FIELDS //
+	////////////
+	// The actual password
     private String password;
 
     // A scoring for the password strength (the highest the better)
@@ -30,11 +29,45 @@ public class Password {
      */
     private String history[];
     private int historyLength;
+	
+	//////////////////
+	// CONSTRUCTORS //
+	//////////////////
+    /**
+     * Default constructor
+     */
+    public Password() {
+    	setPassword();
+    	setStrength();
+    	history = new String[100];
+    	historyLength = 0;
+    }
     
     /**
-     * 
+     * Constructor with an indication of length
+     */
+    public Password(int length) {
+    	setPassword(length);
+    	setStrength();
+    	history = new String[100];
+    	historyLength = 0;
+    }
+    
+	///////////////
+	// ACCESSORS //
+	///////////////
+    /**
+     * Using default length of 16
      */
     private void setPassword() {
+        // TODO implement here
+    }
+    
+    /**
+     * Using explicitly defined length
+     * Precondition: the length is at least MIN_LENGTH, otherwise MIN_LENGTH is used
+     */
+    private void setPassword(int length) {
         // TODO implement here
     }
 
@@ -58,6 +91,18 @@ public class Password {
     public void getStrength() {
         // TODO implement here
     }
+    
+
+    /**
+     * Returns a string array with the history of all previous values for the password, not including the current one. The older values are placed at lower indices in the array.
+     */
+    public void getHistory() {
+        // TODO implement here
+    }
+    
+	/////////////
+	// METHODS //
+	/////////////
 
     /**
      * Creates a new password and saves the previous one to the history array.
@@ -79,12 +124,19 @@ public class Password {
     	// The new strength is calculated
     	setStrength();
     }
-
+    
     /**
-     * Returns a string array with the history of all previous values for the password, not including the current one. The older values are placed at lower indices in the array.
+     * Shuffles a char array in place
      */
-    public void getHistory() {
-        // TODO implement here
+    private void shuffle(char[] a){
+    	int newNumber = 0;
+    	char temp = ' ';
+    	for(int i = 0; i < a.length - 1; i++){
+    		newNumber = i + (int) (Math.random() * (a.length - i + 1));
+    		temp = a[i];
+    		a[i] = a[newNumber];
+    		a[newNumber] = a[i];
+    	}
     }
 
 }
