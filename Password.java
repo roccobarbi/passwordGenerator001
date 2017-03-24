@@ -128,7 +128,34 @@ public class Password {
      * 
      */
     private void setStrength() {
+    	// Scoring system inspired by http://www.passwordmeter.com/
         // TODO implement here
+    	int passLength = password.length();
+    	int score = (passLength + 1) * 4;
+    	int countUpper = 0, countLower = 0, countDigit = 0, countSymbol = 0, countMiddle = 0;
+    	// First step: additions
+    	for (int i = 0; i < passLength; i++){
+    		if (Character.isUpperCase(password.charAt(i))){
+    			countUpper++;
+    		} else if (Character.isLowerCase(password.charAt(i))){
+    			countLower++;
+    		} else if (Character.isDigit(password.charAt(i))){
+    			countDigit++;
+    			if(i > 0 && i < (passLength - 1)) countMiddle++;
+    		} else {
+    			countSymbol++;
+    			if(i > 0 && i < (passLength - 1)) countMiddle++;
+    		}
+    	}
+    	score += (passLength - countUpper) * 2;
+    	score += (passLength - countLower) * 2;
+    	score += countDigit * 4;
+    	score += countSymbol * 6;
+    	score += countMiddle * 2;
+    	// Step 2: deductions
+    	if(passLength == countUpper + countLower || passLength == countDigit) score -= passLength;
+    	// Save
+    	strength = score;
     }
 
     /**
